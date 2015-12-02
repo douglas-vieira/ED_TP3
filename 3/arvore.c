@@ -44,17 +44,43 @@ int percorrer(arvore *raiz1, arvore *raiz2)
 	{
 		if(raiz1 != NULL && raiz2 != NULL)
 		{
-			if(raiz1 -> esq != NULL);
-				retorno1=percorrer(raiz1 -> esq, raiz2 -> esq);
+			if(raiz1->dado == raiz2->dado)
+			{
+				if(raiz1 -> esq != NULL);
+					retorno1=percorrer(raiz1 -> esq, raiz2 -> esq);
 
-			if(raiz1 -> dir != NULL);
-				retorno2=percorrer(raiz1 -> dir, raiz2 -> dir);
+				if(raiz1 -> dir != NULL);
+					retorno2=percorrer(raiz1 -> dir, raiz2 -> dir);
+			}
 		}
 		return (retorno1 > retorno2 ? retorno1 : retorno2);
 	}
 	else
 		return (1);
 }
+
+/*int percorrer(arvore *raiz1, arvore *raiz2)
+{
+	int retorno=0;
+	if(((raiz1 == NULL) && (raiz2 == NULL)) || ((raiz1 != NULL) && (raiz2 != NULL)))
+	{
+		if(raiz1 != NULL && raiz2 != NULL)
+		{
+			if(raiz1->dado == raiz2->dado)
+			{
+				if(raiz1 -> esq != NULL);
+					retorno=percorrer(raiz1 -> esq, raiz2 -> esq);
+
+				if(raiz1 -> dir != NULL);
+					retorno=percorrer(raiz1 -> dir, raiz2 -> dir);
+			}
+		}
+		return (retorno);
+	}
+	else
+		return (1);
+}*/
+
 
 void printar_arvore(arvore *raiz)
 {
@@ -113,9 +139,9 @@ int main()
 	printf("\nElementos no arvore 2 = %d\n",contagem(raiz2));
 	printf("Altura da arvore 2 = %d ",altura(raiz2));
 	if(!percorrer(raiz1, raiz2))
-		printf("\nArvores isomórficas.\n");
+		printf("\nArvores iguais.\n");
 	else
-		printf("\nArvores não isomórficas.\n");
+		printf("\nArvores não iguais.\n");
 	printf("\n");
 	return 0;
 }
