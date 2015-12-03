@@ -37,49 +37,47 @@ int altura (arvore *raiz)
 }
 
 
+
 int percorrer(arvore *raiz1, arvore *raiz2)
 {
-	int retorno1=0,retorno2=0;
-	if(((raiz1 == NULL) && (raiz2 == NULL)) || ((raiz1 != NULL) && (raiz2 != NULL)))
-	{
-		if(raiz1 != NULL && raiz2 != NULL)
-		{
-			if(raiz1->dado == raiz2->dado)
-			{
-				if(raiz1 -> esq != NULL);
-					retorno1=percorrer(raiz1 -> esq, raiz2 -> esq);
-
-				if(raiz1 -> dir != NULL);
-					retorno2=percorrer(raiz1 -> dir, raiz2 -> dir);
-			}
-		}
-		return (retorno1 > retorno2 ? retorno1 : retorno2);
-	}
+	//int retorno1=0,retorno2=0;
+	if(raiz1 == NULL && raiz2 == NULL)
+		return (0);
 	else
+		if((raiz1 == NULL && raiz2 != NULL) || (raiz1 != NULL && raiz2 == NULL))
+			return 1;
+		else
+			if(raiz1->dado == raiz2->dado)
+				return (percorrer(raiz1 -> esq, raiz2 -> esq) > percorrer(raiz1 -> dir, raiz2 -> dir) ? percorrer(raiz1 -> esq, raiz2 -> esq) : percorrer(raiz1 -> dir, raiz2 -> dir));
 		return (1);
 }
 
 /*int percorrer(arvore *raiz1, arvore *raiz2)
 {
-	int retorno=0;
-	if(((raiz1 == NULL) && (raiz2 == NULL)) || ((raiz1 != NULL) && (raiz2 != NULL)))
+	int retorno1=0,retorno2=0;
+	if(raiz1 == NULL && raiz2 == NULL)
 	{
-		if(raiz1 != NULL && raiz2 != NULL)
+		return (0);
+	}
+	else
+	{
+		if((raiz1 == NULL && raiz2 != NULL) || (raiz1 != NULL && raiz2 == NULL))
+		{
+			return 1;
+		}
+		else
 		{
 			if(raiz1->dado == raiz2->dado)
 			{
-				if(raiz1 -> esq != NULL);
-					retorno=percorrer(raiz1 -> esq, raiz2 -> esq);
-
-				if(raiz1 -> dir != NULL);
-					retorno=percorrer(raiz1 -> dir, raiz2 -> dir);
+				retorno1=percorrer(raiz1 -> esq, raiz2 -> esq);
+				retorno2=percorrer(raiz1 -> dir, raiz2 -> dir);
+				return (retorno1 > retorno2 ? retorno1 : retorno2);
 			}
 		}
-		return (retorno);
 	}
-	else
 		return (1);
 }*/
+
 
 
 void printar_arvore(arvore *raiz)
