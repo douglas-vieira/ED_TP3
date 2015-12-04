@@ -50,46 +50,45 @@ void insere_arvore_generica (arvore **raiz, FILE *fp)
 	while (!feof(fp))
 	{
 		c = getc(fp);
-	printf("*c = %c\n",c );
-		fscanf(fp,"%d",&n);
-	printf("n = %d\n\n",n );
-	aux=getc(fp);
-	//printf("c = %c =\n",c );
-		if(aux!='\n')
+		printf("%c ",c );
+		//fscanf(fp,"%d",&n);
+		aux=getc(fp);
+		n=atoi(&aux);
+		printf("n= %d\n",n );
+		//aux = getc(fp);
+		//printf("c = %c =\n",c );
+		if(NULL)
 		{
-			if(n!=0)
+			if(*raiz!=NULL)
 			{
-				if(*raiz!=NULL)
+				ptr_aux = busca_chave(*raiz,c);
+				//ptr_aux->dado == c ? printf("%s\n","Igual" ):printf("%s\n","diferente" );
+				printf("busca = %c\n", ptr_aux->dado);
+				if (ptr_aux == NULL)
 				{
-					ptr_aux = busca_chave(*raiz,c);
-					ptr_aux->dado == c ? printf("%s\n","Igual" ):printf("%s\n","diferente" );
-					printf("busca = %c\n", ptr_aux->dado);
-					if (ptr_aux == NULL)
-					{
-						printf("%s\n", "arvore vazia.");
-						return;
-					}
+					printf("%s\n", "arvore vazia.");
+					return;
+				}
+			}
+			else
+			{
+				*raiz = (arvore *)calloc (1,sizeof(arvore));
+				(*raiz)->dado = c;
+				(*raiz)->filhos = n;
+			}
+			for (int i = 0; i < n; ++i)
+			{
+				inserir = (arvore *)calloc (1,sizeof(arvore));
+				inserir->dado = getc (fp);
+				if (ptr_aux->filho == NULL)
+				{
+					ptr_aux->filho = inserir;
+					ptr_aux=ptr_aux->filho;
 				}
 				else
 				{
-					*raiz = (arvore *)calloc (1,sizeof(arvore));
-					(*raiz)->dado = c;
-					(*raiz)->filhos = n;
-				}
-				for (int i = 0; i < n; ++i)
-				{
-					inserir = (arvore *)calloc (1,sizeof(arvore));
-					inserir->dado = getc (fp);
-					if (ptr_aux->filho == NULL)
-					{
-						ptr_aux->filho = inserir;
-						ptr_aux=ptr_aux->filho;
-					}
-					else
-					{
-						ptr_aux->irmao = inserir;
-						ptr_aux = ptr_aux->irmao;
-					}
+					ptr_aux->irmao = inserir;
+					ptr_aux = ptr_aux->irmao;
 				}
 			}
 		}
@@ -170,6 +169,6 @@ int main()
 	printar_arvore(raiz1);
 	//printf("\nElementos no arvore 1 = %d ",contagem(raiz1));
 	//printf("\nAltura no arvore 1 = %d ",altura(raiz1));
-	printf("\n");
+	//printf("\n");
 	return 0;
 }
