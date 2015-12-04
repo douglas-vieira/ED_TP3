@@ -45,42 +45,51 @@ arvore *busca_chave(arvore *raiz, info chave)
 void insere_arvore_generica (arvore **raiz, FILE *fp)
 {
 	int n;
-	info c;
+	info c, aux;
 	arvore *ptr_aux, *inserir;
 	while (!feof(fp))
 	{
-		c  = getc (fp);
-		if(c!='\n')
+		c = getc(fp);
+	printf("*c = %c\n",c );
+		fscanf(fp,"%d",&n);
+	printf("n = %d\n\n",n );
+	aux=getc(fp);
+	//printf("c = %c =\n",c );
+		if(aux!='\n')
 		{
-			fscanf(fp,"%d",&n);
-			if(*raiz!=NULL)
+			if(n!=0)
 			{
-				ptr_aux = busca_chave(*raiz,c);
-				if (ptr_aux == NULL)
+				if(*raiz!=NULL)
 				{
-					printf("%s\n", "arvore vazia.");
-					return;
-				}
-			}
-			else
-			{
-				*raiz = (arvore *)calloc (1,sizeof(arvore));
-				(*raiz)->dado = c;
-				(*raiz)->filhos = n;
-			}
-			for (int i = 0; i <= n; ++i)
-			{
-				inserir = (arvore *)calloc (1,sizeof(arvore));
-				inserir->dado = getc (fp);
-				if (ptr_aux->filho == NULL)
-				{
-					ptr_aux->filho = inserir;
-					ptr_aux=ptr_aux->filho;
+					ptr_aux = busca_chave(*raiz,c);
+					ptr_aux->dado == c ? printf("%s\n","Igual" ):printf("%s\n","diferente" );
+					printf("busca = %c\n", ptr_aux->dado);
+					if (ptr_aux == NULL)
+					{
+						printf("%s\n", "arvore vazia.");
+						return;
+					}
 				}
 				else
 				{
-					ptr_aux->irmao = inserir;
-					ptr_aux = ptr_aux->irmao;
+					*raiz = (arvore *)calloc (1,sizeof(arvore));
+					(*raiz)->dado = c;
+					(*raiz)->filhos = n;
+				}
+				for (int i = 0; i < n; ++i)
+				{
+					inserir = (arvore *)calloc (1,sizeof(arvore));
+					inserir->dado = getc (fp);
+					if (ptr_aux->filho == NULL)
+					{
+						ptr_aux->filho = inserir;
+						ptr_aux=ptr_aux->filho;
+					}
+					else
+					{
+						ptr_aux->irmao = inserir;
+						ptr_aux = ptr_aux->irmao;
+					}
 				}
 			}
 		}
@@ -134,8 +143,8 @@ void printar_arvore(arvore *raiz)
 	if(raiz!=NULL)
 	{
 		if(raiz->irmao != NULL);
+			//printf("%c",raiz->dado);
 			printar_arvore(raiz->irmao);
-		printf("%c",raiz->dado);
 		if(raiz->filho != NULL);
 			printar_arvore(raiz->filho);
 	}
@@ -158,7 +167,7 @@ int main()
 		fp1=fopen("texto1.txt","r");
 	insere_arvore_generica (&raiz1, fp1);
 	printf("Arvore 1: ");
-	//printar_arvore(raiz1);
+	printar_arvore(raiz1);
 	//printf("\nElementos no arvore 1 = %d ",contagem(raiz1));
 	//printf("\nAltura no arvore 1 = %d ",altura(raiz1));
 	printf("\n");
