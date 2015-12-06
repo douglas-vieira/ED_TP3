@@ -8,7 +8,7 @@ typedef struct Arvore{
 }arvore;
 void insere_arvore_ordenando(arvore **raiz, info letra){
 	if(*raiz==NULL){
-		 arvore *inserir = (arvore *)calloc (1,sizeof(arvore));
+		arvore *inserir = (arvore *)calloc (1,sizeof(arvore));
 		*raiz = inserir;
 		(*raiz)->dado=letra;
 	}
@@ -25,20 +25,6 @@ int altura (arvore *raiz){
 		alt_esq = altura (raiz->esq);
 		return((alt_dir > alt_esq) ? (1 + alt_dir) : (1 + alt_esq));
 	}
-}
-int percorrer(arvore *raiz1, arvore *raiz2){
-	int retorno1=0,retorno2=0;
-	if(((raiz1 == NULL) && (raiz2 == NULL)) || ((raiz1 != NULL) && (raiz2 != NULL))){
-		if(raiz1 != NULL && raiz2 != NULL){
-			if(raiz1 -> esq != NULL);
-				retorno1=percorrer(raiz1 -> esq, raiz2 -> esq);
-			if(raiz1 -> dir != NULL);
-				retorno2=percorrer(raiz1 -> dir, raiz2 -> dir);
-		}
-		return (retorno1 > retorno2 ? retorno1 : retorno2);
-	}
-	else
-		return (1);
 }
 void printar_arvore(arvore *raiz){
 	if(raiz!=NULL){
@@ -75,43 +61,30 @@ void printar_largura(arvore* raiz){
 	    }
 }
 int main(){
-	FILE *fp1, *fp2;
+	FILE *fp1;
 	arvore *raiz1 = NULL;
-	arvore *raiz2 = NULL;
-	info letra;
-	if(!fopen("texto1.txt","r"))
-		printf("%s\n", "sem arquivo 1");
-	else
-		fp1=fopen("texto1.txt","r");
+	info letra1;
+	int direita, esquerda, resultado;
+	if(((fp1=fopen("texto1.txt","r"))==NULL)){
+		printf("%s\n", "sem arquivos necessarios");
+		exit (1);
+	}
 	while (!feof(fp1)){
-		letra = getc(fp1);
-		if((letra!='\n') && (letra!=EOF) && (letra!='\r'))
-			insere_arvore_ordenando(&raiz1,letra);
+		letra1 = getc(fp1);
+		if((letra1!='\n') && (letra1!=EOF) && (letra1!='\r'))
+			insere_arvore_ordenando(&raiz1,letra1);
 	}
-	if(!fopen("texto2.txt","r"))
-		printf("%s\n", "sem arquivo 2");
-	else
-		fp2=fopen("texto2.txt","r");
-	while (!feof(fp2)){
-		letra = getc(fp2);
-		if((letra!='\n') && (letra!=EOF) && (letra!='\r'))
-			insere_arvore_ordenando(&raiz2,letra);
-	}
-	printf("Arvore 1: ");
+	printf("Arvore: ");
 	printar_arvore(raiz1);
-	printf("\nElementos no arvore 1 = %d ",contagem(raiz1));
-	printf("\nAltura no arvore 1 = %d ",1+altura(raiz1));
-	printf("\nEstrutura Arvore 1:\n");
+	printf("\nAltura da arvore = %d\n",1+altura(raiz1));
+	printf("Elementos na arvore = %d ",contagem(raiz1));
+	direita=contagem(raiz1->dir);
+	esquerda=contagem(raiz1->esq);
+	printf("\nElementos a direita da raiz = %d\n",direita);
+	printf("Elementos a esquerda da raiz = %d\n",esquerda);
+	printf("Estrutura da Arvore:\n\n");
 	printar_largura(raiz1);
-	printf("\n\nArvore 2: ");
-	printar_arvore(raiz2);
-	printf("\nElementos no arvore 2 = %d\n",1+contagem(raiz2));
-	printf("Altura da arvore 2 = %d ",altura(raiz2));
-	printf("\nEstrutura Arvore 2:\n");
-	printar_largura(raiz2);
-	if(!percorrer(raiz1, raiz2))
-		printf("\n\nArvores isomorficas.\n");
-	else
-		printf("\n\nArvores nao isomorficas.\n");
+	direita >= esquerda ? (resultado = (direita - esquerda)) : (resultado = (esquerda - direita));
+	resultado > 1 ? printf("\n\tArvore desbalanceada\n") : printf("\n\tArvore balanceada\n");
 	return 0;
 }

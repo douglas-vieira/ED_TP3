@@ -19,6 +19,7 @@ arvore *busca_chave(arvore *raiz, info chave){
 		retorno=busca_chave(raiz->irmao,chave);
 	return(retorno);
 }
+
 void insere_arvore_generica (arvore **raiz, FILE *fp){
 	int n;
 	info c, aux;
@@ -77,14 +78,14 @@ void printar_arvore(arvore *raiz){
 	if(raiz!=NULL){
 		if(raiz->irmao != NULL);
 			printar_arvore(raiz->irmao);
-		printf("%c -> %d filhos\n",raiz->dado,raiz->filhos);
+		printf("%c ",raiz->dado);
 		if(raiz->filho != NULL);
 			printar_arvore(raiz->filho);
 	}
 	return;
 }
 int contagem(arvore *raiz){
-	return ((raiz != NULL) ? (contagem(raiz->filho) + contagem(raiz->irmao) + 1) : 0);
+   return ((raiz != NULL) ? (contagem(raiz->filho) + contagem(raiz->irmao) + 1) : 0);
 }
 void printar_nivel(arvore* raiz, int nivel){
     if (nivel == 1)
@@ -107,6 +108,33 @@ void printar_largura(arvore* raiz){
 	        printf("\n");
 	    }
 }
+void inserir(arvore *pai, arvore *nodo_inserir){
+	if(pai->filho == NULL)
+		pai->filho=nodo_inserir;
+	else{
+		nodo_inserir->irmao=pai->filho;
+		pai->filho=nodo_inserir;
+	}
+}
+void procura_pai_inserir(arvore *raiz){
+	arvore *nodo_pai, *nodo_inserir;
+	info letra, pai;
+	printf("Digite a letra a ser inserida na arvore: ");
+	scanf("%c",&letra);
+	getchar();
+	printf("Digite a letra de quem sera' o pai: ");
+	scanf("%c",&pai);
+	getchar();
+	nodo_pai=busca_chave(raiz, pai);
+	if(!nodo_pai){
+		printf("\n\tPai -%c- nao esta na arvore.\n",pai);
+		exit(1);
+		return;
+	}
+	nodo_inserir=(arvore *)calloc (1, sizeof(arvore));
+	nodo_inserir->dado=letra;
+	inserir(nodo_pai, nodo_inserir);
+}
 int main(){
 	FILE *fp1;
 	arvore *raiz1 = NULL;
@@ -115,11 +143,18 @@ int main(){
 	else
 		fp1=fopen("texto1.txt","r");
 	insere_arvore_generica (&raiz1, fp1);
-	printf("Elementos no arvore 1 = %d ",contagem(raiz1));
-	printf("\nAltura no arvore 1 = %d\n",1+altura(raiz1));
-	printf("Nodos e filhos:\n");
+	printf("\t ANTES DE INSERIR\n\nArvore: ");
 	printar_arvore(raiz1);
-	printf("Estrutura Arvore:\n");
+	printf("\nElementos na arvore = %d\nAltura da arvore = %d ",contagem(raiz1),1+altura(raiz1));
+	printf("\nEstrutura da Arvore:\n");
 	printar_largura(raiz1);
+	printf("\n");
+	procura_pai_inserir(raiz1);
+	printf("\n\t DEPOIS DE INSERIR\n\nArvore: ");
+	printar_arvore(raiz1);
+	printf("\nElementos na arvore = %d\nAltura da arvore = %d ",contagem(raiz1),1+altura(raiz1));
+	printf("\nEstrutura da Arvore:\n");
+	printar_largura(raiz1);
+	printf("\n");
 	return 0;
 }
